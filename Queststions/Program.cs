@@ -9,30 +9,17 @@ namespace Queststions
         static void Main(string[] args)
         {
             Boolean random = false;
-
-
-                string[] questions = File.ReadAllLines(@"Questions.txt"); //add Questions
-
-                string[] answer1 = File.ReadAllLines(@"answer1.txt"); //add answer 1
-
-                string[] answer2 = File.ReadAllLines(@"answer2.txt");  //add answer 2
-
-                string[] answer3 = File.ReadAllLines(@"answer3.txt");  //add answer 3
-
-                string[] answerc = File.ReadAllLines(@"answerc.txt"); //add correct answers
-
-                int qMax = questions.Length;
                 int points = 0;
                 string intronum = "";
                 string quizName = "";
                 Boolean quizExists = true;
                 string overWrite = "";
                 Boolean newQ = true;
-                string[] currentTq = new string[100];
-                string[] currentTa1 = new string[100];
-                string[] currentTa2 = new string[100];
-                string[] currentTa3 = new string[100];
-                string[] currentTac = new string[100];
+                string[] currentTq = new string[1000];
+                string[] currentTa1 = new string[1000];
+                string[] currentTa2 = new string[1000];
+                string[] currentTa3 = new string[1000];
+                string[] currentTac = new string[1000];
                 int currentG = 0;
             Intro();
             
@@ -53,6 +40,20 @@ namespace Queststions
 
             void Questioner(){
                 Console.Clear();
+                string[] questions = File.ReadAllLines(@"Questions.txt"); //add Questions
+
+                string[] answer1 = File.ReadAllLines(@"answer1.txt"); //add answer 1
+
+                string[] answer2 = File.ReadAllLines(@"answer2.txt");  //add answer 2
+
+                string[] answer3 = File.ReadAllLines(@"answer3.txt");  //add answer 3
+
+                string[] answerc = File.ReadAllLines(@"answerc.txt"); //add correct answers
+
+                int qMax = questions.Length;
+
+                System.Console.WriteLine(qMax);
+
                 if(random==true)
                 {
 
@@ -79,6 +80,9 @@ namespace Queststions
                                 
                             }
                             currentQ++;
+                            if(questions[currentQ] == ""){
+                                currentQ = 10000000;
+                            }
                         }
                     
                 }
@@ -111,18 +115,59 @@ namespace Queststions
                 while(intronum != "1" && intronum != "2"){
                     Console.Clear();
                     Console.WriteLine("This is the site to load a Quiz");
-                    Console.WriteLine("To load you own quiz press 1");
-                    Console.WriteLine("To load the premade Quiz press 2");
+                    Console.WriteLine("To load the premade Quiz press 1");
+                    Console.WriteLine("To load you own quiz press 2");
                     intronum = Console.ReadLine();
                     
                     
                 }
-                if(intronum == "1"){Console.Clear();}
+                if(intronum == "1")
+                {
+                        string[] questions = File.ReadAllLines(@"Questionsreset.txt"); //add Questions
+                        string[] answer1 = File.ReadAllLines(@"answer1reset.txt"); //add answer 1
+                        string[] answer2 = File.ReadAllLines(@"answer2reset.txt");  //add answer 2
+                        string[] answer3 = File.ReadAllLines(@"answer3reset.txt");  //add answer 3
+                        string[] answerc = File.ReadAllLines(@"answercreset.txt"); //add correct answers
+
+                        File.WriteAllLines(@"Questions.txt", questions);
+                        File.WriteAllLines(@"answer1.txt", answer1);
+                        File.WriteAllLines(@"answer2.txt", answer2);
+                        File.WriteAllLines(@"answer3.txt", answer3);
+                        File.WriteAllLines(@"answerc.txt", answerc);
+                        System.Console.WriteLine("Files overwriten, ruturn to main menu");
+                        Console.Read();
+                        Intro();
+                }
                 if(intronum == "2")
                     {
                     Console.Clear();
-                    //Take Backups and overwrite Main .txts
+                    System.Console.WriteLine("What is you keyword?");
+                    string keyword = Console.ReadLine();
+
+                     if (File.Exists(@keyword + "q.txt"))
+                    {
+                        string[] questions = File.ReadAllLines(@keyword + "q.txt"); //add Questions
+                        string[] answer1 = File.ReadAllLines(@keyword + "a1.txt"); //add answer 1
+                        string[] answer2 = File.ReadAllLines(@keyword + "a2.txt");  //add answer 2
+                        string[] answer3 = File.ReadAllLines(@keyword + "a3.txt");  //add answer 3
+                        string[] answerc = File.ReadAllLines(@keyword + "ac.txt"); //add correct answers
+
+                        File.WriteAllLines(@"Questions.txt", questions);
+                        File.WriteAllLines(@"answer1.txt", answer1);
+                        File.WriteAllLines(@"answer2.txt", answer2);
+                        File.WriteAllLines(@"answer3.txt", answer3);
+                        File.WriteAllLines(@"answerc.txt", answerc);
+                        System.Console.WriteLine("Files overwriten, ruturn to main menu");
+                        Console.Read();
+                        Intro();
                     }
+                    else{
+                        System.Console.WriteLine("Sorry I cant find that file");
+                        System.Console.WriteLine("Try again");
+                        Console.ReadLine();
+                        LoadQuiz();
+                    }
+                }
             }
 
             void MakeQuiz()
@@ -159,13 +204,6 @@ namespace Queststions
                     }                
                     
                 }
-                /*
-                File.Create(@quizName + "q.txt");
-                File.Create(@quizName + "a1.txt");
-                File.Create(@quizName + "a2.txt");
-                File.Create(@quizName + "a3.txt");
-                File.Create(@quizName + "ac.txt");
-                */
                 while(newQ == true)
                 {
                     overWrite = "";
@@ -192,12 +230,12 @@ namespace Queststions
                         if(overWrite == "2")
                         {
                             newQ = false;
-                            File.WriteAllLines(@"text.txt", currentTq);
                             File.WriteAllLines(@quizName + "q.txt", currentTq);
                             File.WriteAllLines(@quizName + "a1.txt", currentTa1);
                             File.WriteAllLines(@quizName + "a2.txt", currentTa2);
                             File.WriteAllLines(@quizName + "a3.txt", currentTa3);
                             File.WriteAllLines(@quizName + "ac.txt", currentTac);
+                            Intro();
                         }
                     }
                 }
