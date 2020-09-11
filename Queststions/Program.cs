@@ -29,8 +29,8 @@ namespace Queststions
                     Console.Clear();
                     Console.WriteLine("This is Quiz Program");
                     Console.WriteLine("Press 1 to start the latest Quiz");
-                    Console.WriteLine("Press 2 to make your own Quiz [COMING SOON]");
-                    Console.WriteLine("Press 3 to load a Quiz [COMING SOON]");
+                    Console.WriteLine("Press 2 to make your own Quiz");
+                    Console.WriteLine("Press 3 to load a Quiz");
                     intronum = Console.ReadLine();
                     }
                 if(intronum == "1"){Questioner();}
