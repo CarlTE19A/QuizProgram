@@ -370,3 +370,11 @@ FodyWeavers.xsd
 
 # Local History for Visual Studio Code
 .history/
+
+#Private
+*q.txt
+*a1.txt
+*a2.txt
+*a3.txt
+*ac.txt
+*art.txt

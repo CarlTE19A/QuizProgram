@@ -19,8 +19,10 @@ namespace Queststions
                 string[] currentTa2 = new string[1000];
                 string[] currentTa3 = new string[1000];
                 string[] currentTac = new string[1000];
+                string currentTart = "";
                 int currentG = 0;
                 int totalQ = 0;
+                string keyword = "";
             Intro();
             
             void Intro(){
@@ -50,6 +52,8 @@ namespace Queststions
 
                 string[] answerc = File.ReadAllLines(@"answerc.txt"); //add correct answers
 
+                string art = File.ReadAllText(@"ACII-ar.txt"); //add ACII-art
+
                 int qMax = questions.Length;
 
                 int currentQ = 0;
@@ -64,6 +68,7 @@ namespace Queststions
                         Console.WriteLine("Answer 1: " + answer1[currentQ]);
                         Console.WriteLine("Answer 2: " + answer2[currentQ]);
                         Console.WriteLine("Answer 3: " + answer3[currentQ]);
+                        System.Console.WriteLine(art);
                         currentA = Console.ReadLine();
                         Console.Clear();
                         if(currentA == answerc[currentQ])
@@ -76,34 +81,10 @@ namespace Queststions
                         totalQ = currentQ;
                         currentQ = 10000000;
                     }
-
-                
                 }
                 End();
-
-                /*
-                if(points<=qMax/4){
-                    System.Console.WriteLine("You got " + points + " points, thats awful");
-                    Console.ReadLine();
-                }
-                else if(points>qMax/4 && points<=qMax/2){
-                    System.Console.WriteLine("You got " + points + " points, thats not good");
-                    Console.ReadLine();
-                }
-                else if(points>qMax/2 && points<qMax){
-                    System.Console.WriteLine("You got " + points + " points, thats good");
-                    Console.ReadLine();
-                }
-                else if(points == qMax){
-                    System.Console.WriteLine("You got " + points + " points, thats a perfect score");
-                    Console.ReadLine();
-                }
-                    else{
-                    System.Console.WriteLine("You got " + points + " points");
-                    Console.ReadLine();
-                } */
-                
             }
+
             void End()
                 {
                     if(points == totalQ)
@@ -131,9 +112,9 @@ namespace Queststions
                         System.Console.WriteLine("You got " + points + " points. Thats 0 out of " + totalQ + ". Not Good");
                     }
 
-                    Console.ReadLine();
-                }
-        
+                    Console.ReadLine();                     
+            }
+    
             void LoadQuiz()
             {
                 intronum = "";
@@ -153,12 +134,14 @@ namespace Queststions
                         string[] answer2 = File.ReadAllLines(@"answer2reset.txt");  //add answer 2
                         string[] answer3 = File.ReadAllLines(@"answer3reset.txt");  //add answer 3
                         string[] answerc = File.ReadAllLines(@"answercreset.txt"); //add correct answers
+                        string art = File.ReadAllText(@"ACII-artreset.txt"); //add art
 
                         File.WriteAllLines(@"Questions.txt", questions);
                         File.WriteAllLines(@"answer1.txt", answer1);
                         File.WriteAllLines(@"answer2.txt", answer2);
                         File.WriteAllLines(@"answer3.txt", answer3);
                         File.WriteAllLines(@"answerc.txt", answerc);
+                        File.WriteAllText(@"ACII-ar.txt", art);
                         System.Console.WriteLine("Files overwriten, ruturn to main menu");
                         Console.Read();
                         Intro();
@@ -167,7 +150,7 @@ namespace Queststions
                     {
                     Console.Clear();
                     System.Console.WriteLine("What is you keyword?");
-                    string keyword = Console.ReadLine();
+                    keyword = Console.ReadLine();
 
                      if (File.Exists(@keyword + "q.txt"))
                     {
@@ -176,12 +159,14 @@ namespace Queststions
                         string[] answer2 = File.ReadAllLines(@keyword + "a2.txt");  //add answer 2
                         string[] answer3 = File.ReadAllLines(@keyword + "a3.txt");  //add answer 3
                         string[] answerc = File.ReadAllLines(@keyword + "ac.txt"); //add correct answers
+                        string art = File.ReadAllText(@keyword + "art.txt"); //add art
 
                         File.WriteAllLines(@"Questions.txt", questions);
                         File.WriteAllLines(@"answer1.txt", answer1);
                         File.WriteAllLines(@"answer2.txt", answer2);
                         File.WriteAllLines(@"answer3.txt", answer3);
                         File.WriteAllLines(@"answerc.txt", answerc);
+                        File.WriteAllText(@"ACII-ar.txt", art);
                         System.Console.WriteLine("Files overwriten, ruturn to main menu");
                         Console.Read();
                         Intro();
@@ -195,7 +180,7 @@ namespace Queststions
                 }
             }
 
-            void MakeQuiz()
+            void MakeQuiz() //Make Private Quiz that are ignored by .gitignore
             {
                 while(quizName == "" && quizExists == true)
                 {
@@ -219,6 +204,7 @@ namespace Queststions
                                 File.Delete(@quizName + "a2.txt");
                                 File.Delete(@quizName + "a3.txt");
                                 File.Delete(@quizName + "a4.txt");
+                                File.Delete(@quizName + "art.txt");
                             }
                             if(overWrite == "2")
                             {
@@ -248,19 +234,51 @@ namespace Queststions
                         Console.WriteLine("Do you want another question?");
                         Console.WriteLine("1 for yes, 2 for no");
                         overWrite = Console.ReadLine();
+                        Console.Clear();
                         if(overWrite == "1")
                         {
                             currentG++;
                         }
                         if(overWrite == "2")
-                        {
+                        {        
+                            Console.Clear();
                             newQ = false;
                             File.WriteAllLines(@quizName + "q.txt", currentTq);
                             File.WriteAllLines(@quizName + "a1.txt", currentTa1);
                             File.WriteAllLines(@quizName + "a2.txt", currentTa2);
                             File.WriteAllLines(@quizName + "a3.txt", currentTa3);
                             File.WriteAllLines(@quizName + "ac.txt", currentTac);
-                            Intro();
+                            File.Create(@quizName + "art.txt");
+                            System.Console.WriteLine("Files Created..");
+                            System.Console.WriteLine("If you want-ACII art find the file " + quizName + "art.txt and paste in art.");
+                            System.Console.WriteLine("Make sure not to have empty lines before or after art");
+                            Console.ReadLine();
+                            string quizAct = "";
+                            while(quizAct != "1" && quizAct != "2"){
+                                System.Console.WriteLine("Do you want to load the Quiz?");
+                                Console.WriteLine("1 for yes, 2 for no");
+                                quizAct = Console.ReadLine();
+                                if(quizAct == "1")
+                                {
+                                    string[] questions = File.ReadAllLines(@quizName + "q.txt"); //add Questions
+                                    string[] answer1 = File.ReadAllLines(@quizName + "a1.txt"); //add answer 1
+                                    string[] answer2 = File.ReadAllLines(@quizName + "a2.txt");  //add answer 2
+                                    string[] answer3 = File.ReadAllLines(@quizName + "a3.txt");  //add answer 3
+                                    string[] answerc = File.ReadAllLines(@quizName + "ac.txt"); //add correct answers
+
+                                    File.WriteAllLines(@"Questions.txt", questions);
+                                    File.WriteAllLines(@"answer1.txt", answer1);
+                                    File.WriteAllLines(@"answer2.txt", answer2);
+                                    File.WriteAllLines(@"answer3.txt", answer3);
+                                    File.WriteAllLines(@"answerc.txt", answerc);
+                                    System.Console.WriteLine("Files overwriten, ruturn to main menu");
+                                    Console.Read();
+                                    Intro();
+                                }
+                                if(quizAct == "2"){Intro();}
+                                
+                            }
+                        
                         }
                     }
                 }
@@ -268,11 +286,3 @@ namespace Queststions
         }
     }
 }
-
-
-/*Plan
-program 1 läser en fil hur många frågor (x)
-program 2 tar hur många x det är och skappar 5 array med den längden
-Array String Fråga, Array String Svar 1, Array String Svar 2, Array String Svar 3, Array int rättsvar
-program 3 tar en fråga itaget läser Varje array i en tillfälig "Svar", 3 Frågor och hemligt svar som byts till nästa fråga
-*/
