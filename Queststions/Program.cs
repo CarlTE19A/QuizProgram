@@ -8,7 +8,6 @@ namespace Queststions
     {
         static void Main(string[] args)
         {
-            Boolean random = false;
                 int points = 0;
                 string intronum = "";
                 string quizName = "";
@@ -21,6 +20,7 @@ namespace Queststions
                 string[] currentTa3 = new string[1000];
                 string[] currentTac = new string[1000];
                 int currentG = 0;
+                int totalQ = 0;
             Intro();
             
             void Intro(){
@@ -52,40 +52,36 @@ namespace Queststions
 
                 int qMax = questions.Length;
 
-                System.Console.WriteLine(qMax);
-
-                if(random==true)
+                int currentQ = 0;
+                string currentA = "";
+                while(currentQ < qMax)
                 {
-
-                }
-                else
-                {
-                    int currentQ = 0;
-                    string currentA = "";
-                    while(currentQ < qMax){
-                        currentA = "";
-                            while(currentA != "1" && currentA != "2" && currentA != "3")
+                    currentA = "";
+                    while(currentA != "1" && currentA != "2" && currentA != "3")
+                    {
+                        Console.WriteLine("Current Question is #" + currentQ);
+                        Console.WriteLine("The Question is " + questions[currentQ]);
+                        Console.WriteLine("Answer 1: " + answer1[currentQ]);
+                        Console.WriteLine("Answer 2: " + answer2[currentQ]);
+                        Console.WriteLine("Answer 3: " + answer3[currentQ]);
+                        currentA = Console.ReadLine();
+                        Console.Clear();
+                        if(currentA == answerc[currentQ])
                             {
-                                Console.WriteLine("Current Question is #" + currentQ);
-                                Console.WriteLine("The Question is " + questions[currentQ]);
-                                Console.WriteLine("Answer 1: " + answer1[currentQ]);
-                                Console.WriteLine("Answer 2: " + answer2[currentQ]);
-                                Console.WriteLine("Answer 3: " + answer3[currentQ]);
-                                currentA = Console.ReadLine();
-                                Console.Clear();
-                                if(currentA == answerc[currentQ])
-                                    {
-                                        points+=1;
-                                    }
-                                
-                            }
-                            currentQ++;
-                            if(questions[currentQ] == ""){
-                                currentQ = 10000000;
-                            }
-                        }
-                    
+                                points+=1;
+                            }                            
+                    }
+                    currentQ++;
+                    if(questions[currentQ] == ""){
+                        totalQ = currentQ;
+                        currentQ = 10000000;
+                    }
+
+                
                 }
+                End();
+
+                /*
                 if(points<=qMax/4){
                     System.Console.WriteLine("You got " + points + " points, thats awful");
                     Console.ReadLine();
@@ -105,9 +101,38 @@ namespace Queststions
                     else{
                     System.Console.WriteLine("You got " + points + " points");
                     Console.ReadLine();
-                }
+                } */
                 
             }
+            void End()
+                {
+                    if(points == totalQ)
+                    {
+                        System.Console.WriteLine("Congratulations you got " + points + " points. Thats a perfect score");
+                    }
+                    else if(points >= totalQ/2 + totalQ/4)
+                    {
+                        System.Console.WriteLine("Congratulations you got " + points + " points. Thats almost perfect");
+                    }
+                    else if(points < totalQ/2+totalQ/4 && points >= totalQ/2)
+                    {
+                        System.Console.WriteLine("You got " + points + " points. Thats quite good");
+                    }
+                    else if(points < totalQ/2 && points >= totalQ/4)
+                    {
+                        System.Console.WriteLine("You got " + points + " points. Thats not good");
+                    }
+                    else if(points < totalQ/4 && points > 0)
+                    {
+                        System.Console.WriteLine("You got " + points + " points. Thats awful");
+                    }
+                    else if(points == 0)
+                    {
+                        System.Console.WriteLine("You got " + points + " points. Thats 0 out of " + totalQ + ". Not Good");
+                    }
+
+                    Console.ReadLine();
+                }
         
             void LoadQuiz()
             {
@@ -250,6 +275,4 @@ program 1 läser en fil hur många frågor (x)
 program 2 tar hur många x det är och skappar 5 array med den längden
 Array String Fråga, Array String Svar 1, Array String Svar 2, Array String Svar 3, Array int rättsvar
 program 3 tar en fråga itaget läser Varje array i en tillfälig "Svar", 3 Frågor och hemligt svar som byts till nästa fråga
-
-
 */
