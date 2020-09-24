@@ -19,7 +19,6 @@ namespace Queststions
                 string[] currentTa2 = new string[1000];
                 string[] currentTa3 = new string[1000];
                 string[] currentTac = new string[1000];
-                string currentTart = "";
                 int currentG = 0;
                 int totalQ = 0;
                 string keyword = "";
@@ -111,8 +110,19 @@ namespace Queststions
                     {
                         System.Console.WriteLine("You got " + points + " points. Thats 0 out of " + totalQ + ". Not Good");
                     }
-
-                    Console.ReadLine();                     
+                    Console.ReadLine();
+                    string redo = "";
+                    while(redo != "1" && redo != "2"){
+                        Console.Clear();
+                        Console.WriteLine("Do you want to return to the menu?");
+                        Console.WriteLine("To return press 1");
+                        Console.WriteLine("To quit press 2");
+                        redo = Console.ReadLine();   
+                    }
+                    if (redo == "1"){
+                    points = 0;
+                    Intro();}
+                 
             }
     
             void LoadQuiz()
